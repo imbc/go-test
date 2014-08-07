@@ -6,7 +6,7 @@ import (
 )
 
 type Node struct {
-	Position Vector
+	Position Point
 	Ch       chan *Node
 	Peers    []*Node
 	Canvas   *Canvas
@@ -20,7 +20,7 @@ func NewNode(peers int, canvas *Canvas) *Node {
 	size := canvas.Bounds().Size()
 	x := float64(size.X) * rand.Float64()
 	y := float64(size.Y) * rand.Float64()
-	node.Position = Vector{x, y}
+	node.Position = Point{x, y}
 	node.Canvas = canvas
 	node.Ch = make(chan *Node)
 	node.Power = 0

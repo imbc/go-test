@@ -58,12 +58,9 @@ func Merge(left []int, right []int) []int {
 		length = len(right)
 	}
 	//log.Print("max length: ", length)
-	result := make([]int, length)
+	//result := make([]int, length)
 	//log.Print(result)
 	for len(left) > 0 && len(right) > 0 {
-
-		//log.Print("left array: ", left)
-		//log.Print("right array: ", right)
 
 		// get the head of each array
 		// compare them
@@ -72,10 +69,12 @@ func Merge(left []int, right []int) []int {
 		// shift the array of origin by one
 		//log.Print(i)
 		if left[0] <= right[0] {
-			result = append(result, left[0])
+			result := left[0]
+			//result = append(result, left[0])
 			left = left[1:]
 		} else {
-			result = append(result, right[0])
+			result := right[0]
+			//result = append(result, right[0])
 			right = right[1:]
 		}
 		//log.Print(result)

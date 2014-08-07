@@ -67,19 +67,19 @@ func (c Canvas) DrawGradient() {
 	}
 }
 
-func (c Canvas) DrawLine(color color.RGBA, from Vector, to Vector) {
-	delta := to.Sub(from)
+func (c Canvas) DrawLine(color color.RGBA, origin Point, destination Point) {
+	delta := destination.Sub(origin)
 	length := delta.Length()
 	x_step, y_step := delta.X/length, delta.Y/length
 	limit := int(length + 0.5)
 	for i := 0; i < limit; i++ {
-		x := from.X + float64(i)*x_step
-		y := from.Y + float64(i)*y_step
+		x := origin.X + float64(i)*x_step
+		y := origin.Y + float64(i)*y_step
 		c.Set(int(x), int(y), color)
 	}
 }
 
-func (c Canvas) DrawCircle(color color.RGBA, at Vector, radius int) {
+func (c Canvas) DrawCircle(color color.RGBA, at Point, radius int) {
 	for x := -radius; x <= radius; x++ {
 		for y := -radius; y <= radius; y++ {
 			if x*x+y*y <= radius*radius {
@@ -89,7 +89,7 @@ func (c Canvas) DrawCircle(color color.RGBA, at Vector, radius int) {
 	}
 }
 
-func (c Canvas) DrawRect(color color.RGBA, min Vector, max Vector) {
+func (c Canvas) DrawRect(color color.RGBA, min Point, max Point) {
 	for x := int(min.X); x <= int(max.X); x++ {
 		for y := int(min.Y); y <= int(max.Y); y++ {
 			c.Set(x, y, color)
@@ -97,9 +97,9 @@ func (c Canvas) DrawRect(color color.RGBA, min Vector, max Vector) {
 	}
 }
 
-func (c Canvas) DrawSpiral(color color.RGBA, from Vector) {
-	dir := Vector{0, 5}
-	last := from
+func (c Canvas) DrawSpiral(color color.RGBA, origin Point) {
+	dir := Point{0, 5}
+	last := origin
 	for i := 0; i < 10000; i++ {
 		next := last.Add(dir)
 		c.DrawLine(color, last, next)
@@ -157,7 +157,9 @@ type WeightFunction interface {
 
 type WeightFunctionBox struct{}
 
-func (w WeightFunctionBox) Weight(x int, y int) float64 { return 1.0 }
+func (w WeightFunctionBox) Weight(x int, y int) float64 {
+	return 1.0
+}
 
 type WeightFunctionDist struct{}
 
