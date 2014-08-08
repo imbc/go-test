@@ -11,6 +11,7 @@ package main
 
 import (
 	"log"
+	"math"
 )
 
 func main() {
@@ -49,6 +50,12 @@ func main() {
 	log.Print(" input: ", iShell)
 	shell := ShellSort(iShell)
 	log.Print("output: ", shell)
+
+	log.Print("========> Bucket Sort <========")
+	iBucket := []int{4, 3, 5, 9, 7, 8, 7, 2, 4}
+	log.Print(" input: ", iBucket)
+	bucket := BucketSort(iBucket)
+	log.Print("output: ", bucket)
 }
 
 func InsertionSort(slice []int) []int {
@@ -185,6 +192,7 @@ func ShellSort(slice []int) []int {
 	return output
 }
 
+// incomplete as it only return the value and doesn't touch the slice itself
 func Pop(slice []int) int {
 	output := slice[len(slice)-1]
 	slice = slice[0 : len(slice)-2]
@@ -195,6 +203,47 @@ func Reverse(slice []int) []int {
 	output := make([]int, 0)
 	for i := len(slice) - 1; i > -1; i-- {
 		output = append(output, slice[i])
+	}
+	return output
+}
+
+type Bucket struct {
+	bit      []int
+	min, max int
+}
+
+func BucketSort(slice []int) []int {
+	n := math.Floor(math.Sqrt(float64(len(slice))))
+	div := math.Floor(math.Sqrt(float64(Sum(slice)) / float64(n)))
+	min := Min(slice)
+	max := 0
+	buckets := make([]Bucket, 0)
+	//lets make & populate the buckets
+	for i := 1; i < int(n)+1; i++ {
+		max = int(math.Floor(div * float64(i)))
+		b := Bucket{make([]int, 0), min, max}
+		for _, val := range slice {
+			if min <= val && val <= max {
+				b.bit = append(b.bit, val)
+			}
+		}
+		buckets = append(buckets, b)
+		min = max + 1
+	}
+
+	output := make([]int, 0)
+	for i := 0; i < len(buckets); i++ {
+		if len(buckets) > 0 {
+			output = append(output, InsertionSort(buckets[i].bit)...)
+		}
+	}
+	return output
+}
+
+func Sum(slice []int) int {
+	output := 0
+	for _, val := range slice {
+		output += val
 	}
 	return output
 }
