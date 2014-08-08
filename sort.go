@@ -15,13 +15,15 @@ import (
 
 func main() {
 	input := []int{1, 3, 7, 2, 9, 8, 4, 6, 5, 0}
-	log.Print("input array: ", input)
+	log.Print("   input array: ", input)
 	insertion := InsertionSort(input)
-	log.Print("insertion array: ", insertion)
+	log.Print("insertion sort: ", insertion)
 	merge := MergeSort(input)
-	log.Print("merged array: ", merge)
+	log.Print("	merge sort: ", merge)
 	quick := QuickSort(input)
-	log.Print("quicksort array: ", quick)
+	log.Print("    quick sort: ", quick)
+	bubble := QuickSort(input)
+	log.Print("   bubble sort: ", bubble)
 }
 
 func InsertionSort(slice []int) []int {
@@ -84,4 +86,17 @@ func QuickSort(slice []int) []int {
 	output := append(QuickSort(left), pivot)
 	output = append(output, QuickSort(right)...)
 	return output
+}
+
+func BubbleSort(slice []int) []int {
+	for i := 0; i < len(slice); i++ {
+		for j := len(slice) - 1; j > i; j-- {
+			if slice[j] < slice[j-1] {
+				t := slice[j]
+				slice[j] = slice[j-1]
+				slice[j-1] = t
+			}
+		}
+	}
+	return slice
 }
