@@ -212,15 +212,15 @@ type Bucket struct {
 	min, max int
 }
 
+// seems to be a good candidate for goroutine
 func BucketSort(slice []int) []int {
 	n := math.Floor(math.Sqrt(float64(len(slice))))
 	div := math.Floor(math.Sqrt(float64(Sum(slice)) / float64(n)))
 	min := Min(slice)
-	max := 0
 	buckets := make([]Bucket, 0)
 	//lets make & populate the buckets
 	for i := 1; i < int(n)+1; i++ {
-		max = int(math.Floor(div * float64(i)))
+		max := int(math.Floor(div * float64(i)))
 		b := Bucket{make([]int, 0), min, max}
 		for _, val := range slice {
 			if min <= val && val <= max {
