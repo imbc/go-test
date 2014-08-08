@@ -14,32 +14,41 @@ import (
 )
 
 func main() {
+	log.Print("========> Insertion Sort <========")
 	iInsertion := []int{4, 2, 4, 1, 2, 6, 8, 19, 3}
-	log.Print("insertion array: ", iInsertion)
+	log.Print(" input: ", iInsertion)
 	insertion := InsertionSort(iInsertion)
-	log.Print(" insertion sort: ", insertion)
+	log.Print("output: ", insertion)
 
+	log.Print("========> Merge Sort <========")
 	iMerge := []int{6, 5, 3, 1, 8, 7, 2, 4}
-	log.Print("    merge array: ", iMerge)
+	log.Print(" input: ", iMerge)
 	merge := MergeSort(iMerge)
-	log.Print("	 merge sort: ", merge)
+	log.Print("output: ", merge)
 
+	log.Print("========> Quick Sort <========")
 	iQuick := []int{5, 3, 9, 8, 7, 2, 4, 1, 6, 5}
-	log.Print("    quick array: ", iQuick)
+	log.Print(" input: ", iQuick)
 	quick := QuickSort(iQuick)
-	log.Print("     quick sort: ", quick)
+	log.Print("output: ", quick)
 
+	log.Print("========> Bubble Sort <========")
 	iBubble := []int{6, 5, 3, 1, 8, 7, 2, 4}
-	log.Print("   bubble array: ", iBubble)
+	log.Print(" input: ", iBubble)
 	bubble := QuickSort(iBubble)
-	log.Print("    bubble sort: ", bubble)
+	log.Print("output: ", bubble)
 
+	log.Print("========> Radix Sort <========")
 	iRadix := []int{4, 3, 5, 9, 7, 2, 4, 1, 6, 5}
-	log.Print("    radix array: ", iRadix)
+	log.Print(" input: ", iRadix)
 	radix := RadixSort(iRadix)
-	log.Print("     radix sort: ", radix)
+	log.Print("output: ", radix)
 
-	//iShell := []int{6, 5, 3, 1, 8, 7, 2, 4}
+	log.Print("========> Shell Sort <========")
+	iShell := []int{6, 5, 3, 1, 8, 7, 2, 4}
+	log.Print(" input: ", iShell)
+	shell := ShellSort(iShell)
+	log.Print("output: ", shell)
 }
 
 func InsertionSort(slice []int) []int {
@@ -146,6 +155,46 @@ func Min(slice []int) int {
 		if val <= output {
 			output = val
 		}
+	}
+	return output
+}
+
+func ShellSort(slice []int) []int {
+	gaps := []int{1, 2, 3, 4, 6}
+	gap := gaps[len(gaps)-1]     // pop
+	gaps = gaps[0 : len(gaps)-1] // pop
+	temp := 0
+	output := make([]int, len(slice))
+	for gap > 0 {
+		for i := gap; i < len(slice); i++ {
+			temp = slice[i]
+			j := i
+			for j >= gap && output[j-gap] > temp {
+				output[j] = output[j-gap]
+				j -= gap
+			}
+			output[j] = temp
+		}
+		if len(gaps) > 0 {
+			gap = gaps[len(gaps)-1]
+			gaps = gaps[0 : len(gaps)-1]
+		} else {
+			gap = 0
+		}
+	}
+	return output
+}
+
+func Pop(slice []int) int {
+	output := slice[len(slice)-1]
+	slice = slice[0 : len(slice)-2]
+	return output
+}
+
+func Reverse(slice []int) []int {
+	output := make([]int, 0)
+	for i := len(slice) - 1; i > -1; i-- {
+		output = append(output, slice[i])
 	}
 	return output
 }
