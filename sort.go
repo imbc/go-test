@@ -1,3 +1,12 @@
+/**
+ * Sorting algorithm based on the version from
+ * http://www.stoimen.com/blog/
+ *
+ * Nothing very original, but at least it is both
+ * a refresh for the theory and a learning to for
+ * Golang.
+ */
+
 package main
 
 import (
@@ -10,8 +19,9 @@ func main() {
 	insertion := InsertionSort(input)
 	log.Print("insertion array: ", insertion)
 	merge := MergeSort(input)
-
 	log.Print("merged array: ", merge)
+	quick := QuickSort(input)
+	log.Print("quicksort array: ", quick)
 }
 
 func InsertionSort(slice []int) []int {
@@ -43,17 +53,35 @@ func MergeSort(slice []int) []int {
 }
 
 func Merge(left []int, right []int) []int {
-	result := make([]int, 0)
+	output := make([]int, 0)
 	for len(left) > 0 && len(right) > 0 {
 		if left[0] <= right[0] {
-			result = append(result, left[0])
+			output = append(output, left[0])
 			left = left[1:]
 		} else {
-			result = append(result, right[0])
+			output = append(output, right[0])
 			right = right[1:]
 		}
 	}
-	result = append(result, left...)
-	result = append(result, right...)
-	return result
+	output = append(output, left...)
+	output = append(output, right...)
+	return output
+}
+
+func QuickSort(slice []int) []int {
+	if len(slice) == 0 {
+		return slice
+	}
+	pivot := slice[0]
+	left, right := make([]int, 0), make([]int, 0)
+	for i := 1; i < len(slice); i++ {
+		if slice[i] < pivot {
+			left = append(left, slice[i])
+		} else {
+			right = append(right, slice[i])
+		}
+	}
+	output := append(QuickSort(left), pivot)
+	output = append(output, QuickSort(right)...)
+	return output
 }

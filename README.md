@@ -1,7 +1,7 @@
 go_test
 =======
 
-testing ground for golang
+testing ground for golang while learning;
 
 
 https://github.com/lettergram/blognet/blob/master/blognet.go
