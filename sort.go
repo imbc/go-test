@@ -14,18 +14,32 @@ import (
 )
 
 func main() {
-	input := []int{1, 3, 7, 2, 9, 8, 4, 6, 5, 0, 4, 3, 5, 9, 7, 2, 4, 1, 6, 5}
-	log.Print("   input array: ", input)
-	insertion := InsertionSort(input)
-	log.Print("insertion sort: ", insertion)
-	merge := MergeSort(input)
-	log.Print("	merge sort: ", merge)
-	quick := QuickSort(input)
-	log.Print("    quick sort: ", quick)
-	bubble := QuickSort(input)
-	log.Print("   bubble sort: ", bubble)
-	radix := RadixSort(input)
-	log.Print("    radix sort: ", radix)
+	iInsertion := []int{4, 2, 4, 1, 2, 6, 8, 19, 3}
+	log.Print("insertion array: ", iInsertion)
+	insertion := InsertionSort(iInsertion)
+	log.Print(" insertion sort: ", insertion)
+
+	iMerge := []int{6, 5, 3, 1, 8, 7, 2, 4}
+	log.Print("    merge array: ", iMerge)
+	merge := MergeSort(iMerge)
+	log.Print("	 merge sort: ", merge)
+
+	iQuick := []int{5, 3, 9, 8, 7, 2, 4, 1, 6, 5}
+	log.Print("    quick array: ", iQuick)
+	quick := QuickSort(iQuick)
+	log.Print("     quick sort: ", quick)
+
+	iBubble := []int{6, 5, 3, 1, 8, 7, 2, 4}
+	log.Print("   bubble array: ", iBubble)
+	bubble := QuickSort(iBubble)
+	log.Print("    bubble sort: ", bubble)
+
+	iRadix := []int{4, 3, 5, 9, 7, 2, 4, 1, 6, 5}
+	log.Print("    radix array: ", iRadix)
+	radix := RadixSort(iRadix)
+	log.Print("     radix sort: ", radix)
+
+	//iShell := []int{6, 5, 3, 1, 8, 7, 2, 4}
 }
 
 func InsertionSort(slice []int) []int {
@@ -99,9 +113,9 @@ func BubbleSort(slice []int) []int {
 }
 
 func RadixSort(slice []int) []int {
-	max := 0
-	if Min(slice) == 0 {
-		max = Max(slice) - Min(slice) + 1
+	max := Max(slice) + 1
+	if Min(slice) < 0 {
+		max -= Min(slice)
 	}
 	temp := make([]int, max)
 	for _, val := range slice {
