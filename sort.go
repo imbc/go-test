@@ -14,7 +14,7 @@ import (
 )
 
 func main() {
-	input := []int{1, 3, 7, 2, 9, 8, 4, 6, 5, 0}
+	input := []int{1, 3, 7, 2, 9, 8, 4, 6, 5, 0, 4, 3, 5, 9, 7, 2, 4, 1, 6, 5}
 	log.Print("   input array: ", input)
 	insertion := InsertionSort(input)
 	log.Print("insertion sort: ", insertion)
@@ -24,6 +24,8 @@ func main() {
 	log.Print("    quick sort: ", quick)
 	bubble := QuickSort(input)
 	log.Print("   bubble sort: ", bubble)
+	radix := RadixSort(input)
+	log.Print("    radix sort: ", radix)
 }
 
 func InsertionSort(slice []int) []int {
@@ -43,13 +45,10 @@ func MergeSort(slice []int) []int {
 	if len(slice) <= 1 {
 		return slice
 	}
-	// split the slice in 2
 	left := slice[0 : len(slice)/2]
 	right := slice[len(slice)/2:]
-	// repeat
 	left = MergeSort(left)
 	right = MergeSort(right)
-	// merge the slice
 	output := Merge(left, right)
 	return output
 }
@@ -92,11 +91,47 @@ func BubbleSort(slice []int) []int {
 	for i := 0; i < len(slice); i++ {
 		for j := len(slice) - 1; j > i; j-- {
 			if slice[j] < slice[j-1] {
-				t := slice[j]
-				slice[j] = slice[j-1]
-				slice[j-1] = t
+				slice[j-1], slice[j] = slice[j], slice[j-1]
 			}
 		}
 	}
 	return slice
+}
+
+func RadixSort(slice []int) []int {
+	max := 0
+	if Min(slice) == 0 {
+		max = Max(slice) - Min(slice) + 1
+	}
+	temp := make([]int, max)
+	for _, val := range slice {
+		temp[val]++
+	}
+	output := make([]int, 0)
+	for key, val := range temp {
+		for ; val > 0; val-- {
+			output = append(output, key)
+		}
+	}
+	return output
+}
+
+func Max(slice []int) int {
+	output := slice[0]
+	for _, val := range slice {
+		if val >= output {
+			output = val
+		}
+	}
+	return output
+}
+
+func Min(slice []int) int {
+	output := slice[0]
+	for _, val := range slice {
+		if val <= output {
+			output = val
+		}
+	}
+	return output
 }
