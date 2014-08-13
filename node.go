@@ -28,13 +28,13 @@ func (n *Node) Unset() {
 	n.init = false
 }
 
-func (n *Node) Potential(sample *Node) float64 {
-	return math.Pow(float64((sample.x-n.x)), 2) + math.Pow(float64((sample.y-n.y)), 2)
+func (n *Node) Potential(s *Sample) float64 {
+	return math.Pow(float64((s.x-n.x)), 2) + math.Pow(float64((s.y-n.y)), 2)
 }
 
-func (n *Node) Move(city *Node, value float64) {
-	n.x += value * (city.x - n.x)
-	n.y += value * (city.y - n.y)
+func (n *Node) Move(s *Sample, value float64) {
+	n.x += value * (s.x - n.x)
+	n.y += value * (s.y - n.y)
 }
 
 func (n *Node) Distance(other *Node, length int) float64 {

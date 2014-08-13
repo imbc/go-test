@@ -18,11 +18,11 @@ func (r *Ring) Unset() {
 	r.init = false
 }
 
-func (r *Ring) MoveAllNodes(n *Node, gain int) {
+func (r *Ring) MoveAllNodes(s *Sample, gain float64) {
 	current := r.start
-	best := r.FindMinimum(n)
+	best := r.FindMinimum(s)
 	for i := 0; i < r.length; i++ {
-		current.Move(n, r.F(float64(gain), best.Distance(current, r.length)))
+		current.Move(s, r.F(gain, best.Distance(current, r.length)))
 		current = current.right
 	}
 }
@@ -31,14 +31,14 @@ func (r *Ring) F(gain float64, n float64) float64 {
 	return (0.70710678 * math.Exp(-(n*n)/(gain*gain)))
 }
 
-func (r *Ring) FindMinimum(n *Node) Node {
+func (r *Ring) FindMinimum(s *Sample) Node {
 	actual := 0.00
 	node := r.start
 	best := node
-	min := node.Potential(n)
+	min := node.Potential(s)
 	for i := 1; i < r.length; i++ {
 		node = node.right
-		actual = node.Potential(n)
+		actual = node.Potential(s)
 		if actual < min {
 			min = actual
 			best = node

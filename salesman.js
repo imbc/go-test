@@ -45,7 +45,7 @@ Node.prototype.distance = function(other, length) {
 
   while (current != this) {
   	current = current.left;
-    left++;
+    	left++;
   }
   right = length - left;
   return (left < right) ? left : right;
@@ -55,7 +55,7 @@ Node.prototype.draw = function(canvas) {
 	var centerX = this.x * canvas.width + 0.5;
 	var centerY = canvas.height - this.y * canvas.height + 0.5;
 	var ctx = canvas.ctx;
-  ctx.fillStyle = "#208020";
+  	ctx.fillStyle = "#208020";
 	ctx.fillRect(centerX, centerY, 1, 1);
 	if (this.right != null) {
 		ctx.lineTo(this.right.x * canvas.width + 0.5, canvas.height - this.right.y * canvas.height + 0.5);
