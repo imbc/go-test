@@ -8,6 +8,10 @@ import (
 )
 
 func main() {
+	a := 47
+	b := 6
+	c := a % b
+	log.Print(a, b, c)
 	log.Print("foo")
 }
 
