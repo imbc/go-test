@@ -1,71 +1,59 @@
 package main
 
 import (
-	"image/color"
-	"math/rand"
+	"math"
 )
 
 type Node struct {
-	Position Point
-	Ch       chan *Node
-	Peers    []*Node
-	Canvas   *Canvas
-	Power    uint8
-	Group    int
+	x, y                         float64
+	life, inhibitation, isWinner int
+	right, left                  *Node
+	init                         bool
 }
 
-func NewNode(peers int, canvas *Canvas) *Node {
-	node := new(Node)
-	node.Peers = make([]*Node, 0, peers)
-	size := canvas.Bounds().Size()
-	x := float64(size.X) * rand.Float64()
-	y := float64(size.Y) * rand.Float64()
-	node.Position = Point{x, y}
-	node.Canvas = canvas
-	node.Ch = make(chan *Node)
-	node.Power = 0
-	go node.Listen()
-	return node
+func NewNode(x, y float64) *Node {
+	n := new(Node)
+	n.x = x
+	n.y = y
+	n.left = n
+	n.right = n
+	n.life = 3
+	n.inhibitation = 0
+	n.isWinner = 0
+	n.init = true
+	return n
 }
 
-func (n *Node) Listen() {
-	// Listen for incoming connection on node's channel
-	for {
-		peer := <-n.Ch
-		peer.Power -= 5
-		n.Power = peer.Power
-		n.Canvas.DrawLine(color.RGBA{255, n.Power, 0, 255}, n.Position, peer.Position)
-		// Retransmit to random node
-		if n.Power > 0 {
-			go n.Send()
-		}
+func (n *Node) Unset() {
+	n.init = false
+}
+
+func (n *Node) Potential(s *Sample) float64 {
+	return math.Pow(float64((s.x-n.x)), 2) + math.Pow(float64((s.y-n.y)), 2)
+}
+
+func (n *Node) Move(s *Sample, value float64) {
+	n.x += value * (s.x - n.x)
+	n.y += value * (s.y - n.y)
+}
+
+func (n *Node) Distance(other *Node, length int) float64 {
+	left := 0
+	right := 0
+	current := other
+	if current != n {
+		current = current.left
+		left++
+	}
+	right = length - left
+	//output := 0
+	if left < right {
+		return float64(left)
+	} else {
+		return float64(right)
 	}
 }
 
-func (n *Node) Send() {
-	for _, target := range n.Peers {
-		if target.Power == 0 {
-			target.Ch <- n
-			break
-		}
-	}
-}
+func (n *Node) Draw() {
 
-type NodeSorter struct {
-	data   []*Node
-	target *Node
-}
-
-func (sorter NodeSorter) Len() int {
-	return len(sorter.data)
-}
-
-func (sorter NodeSorter) Less(i, j int) bool {
-	iDelta := sorter.data[i].Position.Sub(sorter.target.Position)
-	jDelta := sorter.data[j].Position.Sub(sorter.target.Position)
-	return iDelta.Length() < jDelta.Length()
-}
-
-func (sorter NodeSorter) Swap(i, j int) {
-	sorter.data[i], sorter.data[j] = sorter.data[j], sorter.data[i]
 }
