@@ -5,18 +5,18 @@ type User struct {
 }
 
 func main() {
-	//u := &User{Name: "Leto"}
-	//println(u.Name) //prints "Leto"
-	//Modify(u)
-	//println(u.Name) //prints "Leto"
+	u1 := &User{Name: "Leto"}
+	println(u1.Name) //prints "Leto"
+	Modify(u1)
+	println(u1.Name) //prints "Leto"
 
-	//u := User{Name: "Leto"}
-	//Modify2(u)
-	//println(u.Name) //prints "Leto"
+	u2 := User{Name: "Leto"}
+	Modify2(u2)
+	println(u2.Name) //prints "Leto"
 
-	//u := &User{Name: "Leto"}
-	//Modify3(&u)
-	//println(u.Name) //prints "Bob"
+	u3 := &User{Name: "Leto"}
+	Modify3(&u3)
+	println(u3.Name) //prints "Bob"
 }
 
 func Modify(u *User) {
