@@ -15,10 +15,11 @@ func main() {
 	log.Print(" input: ", input)
 }
 
-// incomplete as it only return the value and doesn't touch the slice itself
-func (s *intSlice) Pop() int {
+// incomplete as it only return the value and doesn't
+// touch the slice itself
+func (s intSlice) Pop() int {
 	length := len(s)
 	output := s[length-1]
-	s = *s[0 : length-2 ]
+	s = s[0 : length-2 ]
 	return output
 }
