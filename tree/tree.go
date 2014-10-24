@@ -3,7 +3,7 @@
  http://cslibrary.stanford.edu/110/BinaryTrees.html
 */
 
-package main
+package tree
 
 import (
 	//"fmt"

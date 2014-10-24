@@ -1,6 +1,6 @@
 // see http://blog.johannes-beck.name/?p=222
 
-package main
+package salesman
 
 import (
 	"log"

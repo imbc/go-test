@@ -7,7 +7,7 @@
  * Golang.
  */
 
-package main
+package sort
 
 import (
 	"log"
