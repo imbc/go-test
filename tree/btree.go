@@ -15,21 +15,24 @@ func main() {
 	Build123()
 }
 
-func Build123() *Node {
+func Build123() (b *Btree) {
 	root := NewNode(2)
 	lchild := NewNode(1)
 	rchild := NewNode(3)
 	root.left = lchild
 	root.right = rchild
+	b.root = root
 
-	return root
+	return b
 }
 
-// NOT WORKING FFS
+type Btree struct {
+	root *Node
+}
+
 type Node struct {
-	left  *Node
-	right *Node
-	data  int
+	left, right *Node
+	data        int
 }
 
 type Compare func(i, j int) int8
@@ -40,7 +43,7 @@ type Compare func(i, j int) int8
  down the tree, chooses the left or right
  branch by comparing the target to each node.
 */
-func Lookup(n Node, target int) int {
+func (b Btree) Lookup(n *Node, target int) int {
 	// 1. Base case == empty tree
 	// in that case, the target is not found so return false
 	if n == nil {
@@ -51,10 +54,10 @@ func Lookup(n Node, target int) int {
 			return n.data
 		} else {
 			// 3. otherwise recur down the correct subtree
-			if target < n.GetData() {
-				return Lookup(n.left, target)
+			if target < n.data {
+				return b.Lookup(n.left, target)
 			} else {
-				return Lookup(n.right, target)
+				return b.Lookup(n.right, target)
 			}
 		}
 	}
@@ -65,12 +68,14 @@ func Lookup(n Node, target int) int {
  with the given data and NULL left and right
  pointers.
 */
-func NewNode(data int) *Node {
-	n := new(&Node)
-	n.data = data
+func NewNode(d int) (n *Node) {
+	//n := new(&Node)
+	//n.data = d
 	//n.left = nil
 	//n.right = nil
-	return n
+	//return n
+	n.data = d
+	return
 }
 
 /*
@@ -80,17 +85,17 @@ func NewNode(data int) *Node {
  then use (the standard trick to avoid using reference
  parameters).
 */
-func Insert(n Node, data int) Node {
-	// 1. If the tree is empty, return a new, single node
-	if n == nil {
-		return NewNode(data)
-	} else {
-		// 2. Otherwise, recur down the tree
-		if data <= n.GetData() {
-			n.left = Insert(n.left, data)
-		} else {
-			n.right = Insert(n.right, data)
-		}
-		return n
-	}
-}
+//func Insert(n *Node, d int) Node {
+//	// 1. If the tree is empty, return a new, single node
+//	if n == nil {
+//		return NewNode(d)
+//	} else {
+//		// 2. Otherwise, recur down the tree
+//		if d <= n.data {
+//			n.left = Insert(n.left, d)
+//		} else {
+//			n.right = Insert(n.right, d)
+//		}
+//		return n
+//	}
+//}
