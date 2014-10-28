@@ -14,7 +14,7 @@ import (
 	"math"
 )
 
-func main() {
+func Print() {
 	log.Print("========> Insertion Sort <========")
 	iInsertion := []int{4, 2, 4, 1, 2, 6, 8, 19, 3}
 	log.Print(" input: ", iInsertion)
